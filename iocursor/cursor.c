@@ -376,8 +376,8 @@ iocursor_cursor_Cursor_readline_impl(cursor* self, Py_ssize_t size) {
     if (size == 0)
         return PyBytes_FromStringAndSize(NULL, 0);
 
-    void* start = (void*) &((char*) self->buffer.buf)[self->offset];
-    void* end   = memchr(start, '\n', size);
+    char* start = (void*) &((char*) self->buffer.buf)[self->offset];
+    char* end   = memchr(start, '\n', size);
 
     Py_ssize_t length = (end == NULL) ? size : end - start + 1;
     PyObject* bytes = PyBytes_FromStringAndSize((char*) start, length);
@@ -431,8 +431,8 @@ PyDoc_STRVAR(
 static inline PyObject*
 iocursor_cursor_Cursor_readlines_impl(cursor* self, Py_ssize_t hint) {
 
-    void*      start;
-    void*      end;
+    char*      start;
+    char*      end;
     PyObject*  bytes;
     PyObject*  lines;
     Py_ssize_t length = 0;
@@ -976,9 +976,9 @@ static PyObject*
 iocursor_cursor_Cursor___repr___impl(cursor* self)
 {
     if (self->readonly && !self->buffer.readonly)
-        return PyUnicode_FromFormat("Cursor(\%R, readonly=True)", self->source);
+        return PyUnicode_FromFormat("Cursor(\\%R, readonly=True)", self->source);
     else
-        return PyUnicode_FromFormat("Cursor(\%R)", self->source);
+        return PyUnicode_FromFormat("Cursor(\\%R)", self->source);
 }
 
 // --------------------------------------------------------------------------
